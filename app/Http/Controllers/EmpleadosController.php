@@ -115,5 +115,61 @@ class EmpleadosController extends Controller
 
     }
 
+    public function modificarEmpleado($IdEmpleado, $IdCiudad){
+        // Obtener información del empleado:
+        $infoEmpleado = $empleados = $listarEmpleados = DB::table('empleados AS EM')
+            ->where('EM.IdEmpleado',$IdEmpleado)
+            ->join('ciudades AS C', 'EM.idCiudadEmpleado','C.idCiudadEmpleado')
+            ->join('departamentos AS D', 'D.idDpartamentoEmpleado','=','C.idDpartamentoEmpleado')
+            ->select('EM.IdEmpleado','EM.nombreEmpleado','EM.apellidoEmpleado','EM.nroIdentificacionEmpleado',
+                'EM.direccionEmpleado','EM.nrotelefonoEmpleado',
+                'D.idDpartamentoEmpleado','D.departamentoEmpleado', 'C.idCiudadEmpleado', 'C.ciudadEmpleado')
+            ->get();
+
+        //dd($infoEmpleado);
+        //return $infoEmpleado[0];
+
+        $getDeptos = departamentos::all();
+        $listarCiudades = ciudades::where('idDpartamentoEmpleado',$IdCiudad)->get();
+
+        return view('Empleado/modificarEmpleado')
+            ->with('infoEmpleado', $infoEmpleado[0])
+            ->with('Deptos', $getDeptos)
+            ->with('Ciudades', $listarCiudades); 
+    }
+
+
+    public function actualizaEmpleado(Request $request){
+        //return $request;
+        $this->validate($request,[
+            'nombreEmpleado' => 'required|regex:/^[A-Z,a-z, ]+$/', // Aquí describo los campos a validar 
+                                           //regex:/^[A-Z],[A-Z,a-z, ]+$/     [A-Z] => Que sólo reciba mayúscula la 1era letra
+                                           //regex:/^[A-Z],[A-Z,a-z, ]+$/     [A-Z,a-z, ] => Caracterea desde la A a la Z tanto mayúculas como minúsculas y que reciba espacio
+            'apellidoEmpleado' => 'required',
+            'nroIdentificacionEmpleado' => 'required|numeric',
+            'direccionEmpleado' => 'required',
+            'nrotelefonoEmpleado' => 'required|numeric',
+            'idDepartamentoEmpleado' => 'required|numeric',
+            'idCiudadEmpleado' => 'required|numeric'
+            
+        ]);
+
+        empleados::where('IdEmpleado',$request->idEmpleado)
+            ->update([ 
+                'nombreEmpleado' => $request->nombreEmpleado,
+                'apellidoEmpleado' => $request->apellidoEmpleado,
+                'nroIdentificacionEmpleado' => $request->nroIdentificacionEmpleado,
+                'direccionEmpleado' => $request->direccionEmpleado,
+                'nrotelefonoEmpleado' => $request->nrotelefonoEmpleado,
+                'idDpartamentoEmpleado' => $request->idDepartamentoEmpleado,
+                'idCiudadEmpleado' => $request->idCiudadEmpleado
+        ]);
+
+        return view('Empleado/actualizado')
+        ->with('proceso',"Modificar datos de usuario")
+        ->with('mensaje',"El Empleado $request->nombreEmpleado $request->apellidoEmpleado ha sido modificado exitosamente")
+        ->with('error', 1);
+
+    }
 
 }

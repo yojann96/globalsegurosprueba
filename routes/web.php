@@ -18,5 +18,8 @@ Route::post('guardarEmpleado', [EmpleadosController::class, 'guardarEmpleado'] )
 Route::post('listarCiudadesxDepto', [EmpleadosController::class, 'listarCiudadesxDepto'] );
 Route::get('eliminarEmpleado/{IdEmpleado}', [EmpleadosController::class, 'eliminarEmpleado'] )->name('eliminarEmpleado');
 
+Route::get('modificarEmpleado/{IdEmpleado}{IdCiudad}', [EmpleadosController::class, 'modificarEmpleado'] )->name('modificarEmpleado');
+Route::post('actualizaEmpleado', [EmpleadosController::class, 'actualizaEmpleado'] )->name('actualizaEmpleado');
+
 
 
