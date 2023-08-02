@@ -1,18 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\EmpleadosController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+//Route::get('RUTA', [controlador::class, 'METODO'] );
+Route::get('listarEmpleados', [EmpleadosController::class, 'listarEmpleados'] )->name('listarEmpleados');
+
+Route::get('eloquent', [EmpleadosController::class, 'eloquent'] )->name('eloquent');
+Route::get('formularioEmpleado', [EmpleadosController::class, 'formularioEmpleado'] )->name('formularioEmpleado'); // Se pone el ->name('formularioEmpleado'); para que identifique la ruta desde la vista
+Route::post('guardarEmpleado', [EmpleadosController::class, 'guardarEmpleado'] )->name('guardarEmpleado'); // Se pone el ->name('guardarEmpleado'); para que identifique la ruta desde la vista
+
+Route::post('listarCiudadesxDepto', [EmpleadosController::class, 'listarCiudadesxDepto'] );
+Route::post('eliminarEmpleado', [EmpleadosController::class, 'eliminarEmpleado'] )->name('eliminarEmpleado');
+
+
+
