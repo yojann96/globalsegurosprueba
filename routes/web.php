@@ -16,7 +16,7 @@ Route::get('formularioEmpleado', [EmpleadosController::class, 'formularioEmplead
 Route::post('guardarEmpleado', [EmpleadosController::class, 'guardarEmpleado'] )->name('guardarEmpleado'); // Se pone el ->name('guardarEmpleado'); para que identifique la ruta desde la vista
 
 Route::post('listarCiudadesxDepto', [EmpleadosController::class, 'listarCiudadesxDepto'] );
-Route::post('eliminarEmpleado', [EmpleadosController::class, 'eliminarEmpleado'] )->name('eliminarEmpleado');
+Route::get('eliminarEmpleado/{IdEmpleado}', [EmpleadosController::class, 'eliminarEmpleado'] )->name('eliminarEmpleado');
 
 
 

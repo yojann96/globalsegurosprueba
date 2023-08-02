@@ -106,10 +106,13 @@ class EmpleadosController extends Controller
     }
 
     
-    public function eliminarEmpleado(Request $request){
+    public function eliminarEmpleado($IdEmpleado){
         //  Eliminar registros
-        empleados::where('IdEmpleado',$request->idEmpleadoEliminar)->delete();
-        return view('Empleado/eliminadoEmpleado')->with('mensaje', 'Empleado eliminado éxitosamente!');
+        empleados::where('IdEmpleado',$IdEmpleado)->delete();
+        return view('Empleado/eliminadoEmpleado')
+            ->with('proceso', "BORRAR EMPLEADO")
+            ->with('mensaje', 'El empleado fue borrado exitosamente del sistema');
+
     }
 
 
